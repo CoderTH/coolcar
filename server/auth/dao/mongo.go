@@ -33,7 +33,7 @@ func (m *Mongo) ResolveAccountID(c context.Context, openID string) (string, erro
 	if err != nil {
 		return "", fmt.Errorf("connot findOneAndUpate: %V", err)
 	}
-	var row mgo.ObjID
+	var row mgo.IDField
 	if err = res.Decode(&row); err != nil {
 		return "", fmt.Errorf("cannot decode result:%V", err)
 	}

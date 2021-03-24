@@ -11,6 +11,7 @@ require (
 	github.com/docker/go-connections v0.4.0
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/golang/protobuf v1.5.1 // indirect
+	github.com/google/go-cmp v0.5.5
 	github.com/grpc-ecosystem/grpc-gateway v1.9.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.3.0
 	github.com/medivhzhan/weapp/v2 v2.4.1

@@ -47,7 +47,7 @@ func RunWithMongoInDocker(m *testing.M) int {
 				},
 			},
 		},
-	}, nil, "")
+	}, nil, nil,"")
 	if err != nil {
 		panic(err)
 	}
@@ -72,7 +72,6 @@ func RunWithMongoInDocker(m *testing.M) int {
 	}
 	hostPort := inspRes.NetworkSettings.Ports[containerPort][0]
 	mongoURI = fmt.Sprintf("mongodb://%s:%s", hostPort.HostIP, hostPort.HostPort)
-
 	return m.Run()
 }
 
