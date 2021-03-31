@@ -2,38 +2,41 @@ package server
 
 import (
 	"coolcar/shared/auth"
+	"net"
+
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"net"
 )
-//grpc服务配置
+
+// GRPCConfig defines a grpc server.
 type GRPCConfig struct {
-	Name string
-	Addr string
-	RegisterFunc func(*grpc.Server)
+	Name              string
+	Addr              string
 	AuthPublicKeyFile string
-	Logger *zap.Logger
+	RegisterFunc      func(*grpc.Server)
+	Logger            *zap.Logger
 }
 
-//	启动GRPC服务器
+// RunGRPCServer runs a grpc server.
 func RunGRPCServer(c *GRPCConfig) error {
-	Namefield := zap.String("name", c.Name)
-	listen, err := net.Listen("tcp", c.Addr)
+	nameField := zap.String("name", c.Name)
+	lis, err := net.Listen("tcp", c.Addr)
 	if err != nil {
-		c.Logger.Fatal("cannot listen ",Namefield,zap.Error(err))
+		c.Logger.Fatal("cannot listen", nameField, zap.Error(err))
 	}
+
 	var opts []grpc.ServerOption
-	if c.AuthPublicKeyFile!=""{
-		in,err:= auth.Interceptor(c.AuthPublicKeyFile)
-		if err !=nil{
-			c.Logger.Fatal("cannot create auth interceptor",Namefield,zap.Error(err))
+	if c.AuthPublicKeyFile != "" {
+		in, err := auth.Interceptor(c.AuthPublicKeyFile)
+		if err != nil {
+			c.Logger.Fatal("cannot create auth interceptor", nameField, zap.Error(err))
 		}
-		opts = append(opts,grpc.UnaryInterceptor(in))
+		opts = append(opts, grpc.UnaryInterceptor(in))
 	}
 
 	s := grpc.NewServer(opts...)
 	c.RegisterFunc(s)
-	c.Logger.Info("server started",Namefield,zap.String("addr",c.Addr))
-	return  s.Serve(listen)
 
+	c.Logger.Info("server started", nameField, zap.String("addr", c.Addr))
+	return s.Serve(lis)
 }

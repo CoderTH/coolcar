@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bf796f2a-9685-47f3-9650-4882ae6b4abf" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/api/auth.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/auth/api/auth.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/api/gen/v1/auth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/api/gen/v1/auth.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/api/gen/v1/auth.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/api/gen/v1/auth.pb.gw.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/auth/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/dao/mongo.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/dao/mongo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/dao/mongo_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/dao/mongo_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/token/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/token/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/token/jwt_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/token/jwt_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/wechat/wechat.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/wechat/wechat.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/context/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/context/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/docker/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/docker/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/mongo/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/mongo/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genPorto.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/api/gen/v1/rental.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/api/gen/v1/rental.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/api/gen/v1/rental.pb.gw.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/api/gen/v1/rental.pb.gw.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/api/rental.proto" beforeDir="false" afterPath="$PROJECT_DIR$/rental/api/rental.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/api/rental.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rental/api/rental.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/trip/dao/mongo.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/trip/dao/mongo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/trip/dao/mongo_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/trip/dao/mongo_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rental/trip/trip.go" beforeDir="false" afterPath="$PROJECT_DIR$/rental/trip/trip.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/auth/auth.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/auth/auth.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/auth/public.key" beforeDir="false" afterPath="$PROJECT_DIR$/shared/auth/public.key" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/auth/token/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/auth/token/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/auth/token/token_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/auth/token/token_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/id/id.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/id/id.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/mongo/mongo.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/mongo/mongo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/mongo/objid/objid.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/mongo/objid/objid.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/mongo/testing/mongotesting.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/mongo/testing/mongotesting.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/server/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/server/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/server/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/shared/server/logger.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/app.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/app.wxss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/appoption.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/appoption.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/driving/driving.wxss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/index/index.wxss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/lock/lock.wxss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/mytrips/mytrips.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/mytrips/mytrips.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/mytrips/mytrips.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/mytrips/mytrips.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/pages/register/register.wxss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/project.config.json" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/project.config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/service/proto_gen/rental/rental_pb.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/service/proto_gen/rental/rental_pb.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/service/proto_gen/rental/rental_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/service/proto_gen/rental/rental_pb.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/service/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/service/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/service/trip.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/service/trip.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/utils/routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/utils/routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wx/miniprogram/utils/wxapi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../wx/miniprogram/utils/wxapi.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.15.2/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProjectId" id="1qVjykrfuwk5SKxONkYbfLRqtaI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RunManager" selected="Go Build.go build coolcar/blob">
+    <configuration name="go build coolcar/auth" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/auth/main.go" />
+      <package value="coolcar/auth" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build coolcar/blob" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/blob/main.go" />
+      <package value="coolcar/blob" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build coolcar/car" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/car/main.go" />
+      <package value="coolcar/car" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build coolcar/gateway" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/gateway/main.go" />
+      <package value="coolcar/gateway" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build coolcar/rental" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/rental/main.go" />
+      <package value="coolcar/rental" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build coolcar/blob" />
+        <item itemvalue="Go Build.go build coolcar/car" />
+        <item itemvalue="Go Build.go build coolcar/rental" />
+        <item itemvalue="Go Build.go build coolcar/gateway" />
+        <item itemvalue="Go Build.go build coolcar/auth" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1878" height="537" key="GridCell.Tab.0.bottom" timestamp="1617172105337">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="537" key="GridCell.Tab.0.bottom/1920.408.1440.900/0.0.1920.1080@0.0.1920.1080" timestamp="1617172105337" />
+    <state width="1878" height="537" key="GridCell.Tab.0.center" timestamp="1617172105336">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="537" key="GridCell.Tab.0.center/1920.408.1440.900/0.0.1920.1080@0.0.1920.1080" timestamp="1617172105336" />
+    <state width="1878" height="537" key="GridCell.Tab.0.left" timestamp="1617172105335">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="537" key="GridCell.Tab.0.left/1920.408.1440.900/0.0.1920.1080@0.0.1920.1080" timestamp="1617172105335" />
+    <state width="1878" height="537" key="GridCell.Tab.0.right" timestamp="1617172105336">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1878" height="537" key="GridCell.Tab.0.right/1920.408.1440.900/0.0.1920.1080@0.0.1920.1080" timestamp="1617172105336" />
+  </component>
+</project>

@@ -1,9 +1,10 @@
 package token
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"testing"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 const privteKey = `-----BEGIN RSA PRIVATE KEY-----
@@ -34,7 +35,7 @@ WSnu/WIRd0SqmEYtFULCc2uuFuXFJfxcxD1I7Pxfax57n3UfPxak2EbuvVYHcK61
 ziJ6UF9CgUshBwSm7RtB8djA38XkkZR32GDf+H+SammgkEqwbPwc
 -----END RSA PRIVATE KEY-----`
 
-func TestJWTTokenGen_GenerateToken(t *testing.T) {
+func TestGenerateToken(t *testing.T) {
 	key, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(privteKey))
 	if err != nil {
 		t.Fatalf("cannot parse private key: %v", err)

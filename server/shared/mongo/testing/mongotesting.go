@@ -47,7 +47,7 @@ func RunWithMongoInDocker(m *testing.M) int {
 				},
 			},
 		},
-	}, nil, nil,"")
+	}, nil, "")
 	if err != nil {
 		panic(err)
 	}
@@ -72,6 +72,7 @@ func RunWithMongoInDocker(m *testing.M) int {
 	}
 	hostPort := inspRes.NetworkSettings.Ports[containerPort][0]
 	mongoURI = fmt.Sprintf("mongodb://%s:%s", hostPort.HostIP, hostPort.HostPort)
+
 	return m.Run()
 }
 
@@ -108,6 +109,16 @@ func SetupIndexes(c context.Context, d *mongo.Database) error {
 		Options: options.Index().SetUnique(true).SetPartialFilterExpression(bson.M{
 			"trip.status": 1,
 		}),
+	})
+	if err != nil {
+		return err
+	}
+
+	_, err = d.Collection("profile").Indexes().CreateOne(c, mongo.IndexModel{
+		Keys: bson.D{
+			{Key: "accountid", Value: 1},
+		},
+		Options: options.Index().SetUnique(true),
 	})
 	return err
 }

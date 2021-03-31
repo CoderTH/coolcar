@@ -1,111 +1,133 @@
 import camelcaseKeys = require("camelcase-keys")
 import { auth } from "./proto_gen/auth/auth_pb"
 
-export namespace Coolcar{
-    const serverAddr = 'http://localhost:8080'
+export namespace Coolcar {
+    export const serverAddr = 'http://localhost:8080'
+    export const wsAddr = 'ws://localhost:9090'
     const AUTH_ERR = 'AUTH_ERR'
+
     const authData = {
-        token:'',
-        expirMs:0,
-    }
-    interface RequestOption<REQ,RES>{
-        method:'GET'|'PUT'|'POST'|'DELETE'
-        path:string
-        data:REQ
-        respMarshller:(r:object)=>RES
+        token: '',
+        expiryMs: 0,
     }
 
-    export interface AuthOption{
-        attachAuthHeader:boolean
-        retryOnAuthError:boolean
+    export interface RequestOption<REQ, RES> {
+        method: 'GET'|'PUT'|'POST'|'DELETE'
+        path: string
+        data?: REQ
+        respMarshaller: (r: object)=>RES
     }
 
-    export async function sendRequestWithAuthRetry<REQ,RES>(o:RequestOption<REQ,RES>,a?:AuthOption):Promise<RES> {
-        const authOpt = a||{
-            attachAuthHeader:true,
-            retryOnAuthError:true,
+    export interface AuthOption {
+        attachAuthHeader: boolean
+        retryOnAuthError: boolean
+    }
+
+    export async function sendRequestWithAuthRetry<REQ, RES>(o: RequestOption<REQ, RES>, a?: AuthOption): Promise<RES> {
+        const authOpt = a || {
+            attachAuthHeader: true,
+            retryOnAuthError: true,
         }
-        try{
-            await Login()
-            return   sendRequest(o,authOpt)
-        }catch(err){
-            if (err===AUTH_ERR&&authOpt.retryOnAuthError){
+        try {
+            await login()
+            return sendRequest(o, authOpt)
+        } catch(err) {
+            if (err === AUTH_ERR && authOpt.retryOnAuthError) {
                 authData.token = ''
-                authData.expirMs=0
-                return sendRequestWithAuthRetry(o,{
-                    attachAuthHeader:authOpt.attachAuthHeader,
-                    retryOnAuthError:false
+                authData.expiryMs = 0
+                return sendRequestWithAuthRetry(o, {
+                    attachAuthHeader: authOpt.attachAuthHeader,
+                    retryOnAuthError: false,
                 })
-            }else{
+            } else {
                 throw err
             }
         }
     }
 
-    export async function Login() {
-
-            if (authData.token&&authData.expirMs >=Date.now()){
-                    return
-            }
-
-            const wxResp = await wxLogin()
-            const reqTimeMs = Date.now()
-            const resp = await sendRequest<auth.v1.ILoginRequest,auth.v1.ILoginResponse>({
-                method:'POST',
-                path:'/v1/auth/login',
-                data:{
-                    code:wxResp.code,
-                },
-                respMarshller:auth.v1.LoginResponse.fromObject
-            },{
-                attachAuthHeader:false,
-                retryOnAuthError:false
-            })
-            authData.token = resp.accessToken!
-            authData.expirMs = reqTimeMs + resp.expiresIn! * 1000
+    export async function login() {
+        if (authData.token && authData.expiryMs >= Date.now()) {
+            return
+        }
+        const wxResp = await wxLogin()
+        const reqTimeMs = Date.now()
+        const resp = await sendRequest<auth.v1.ILoginRequest, auth.v1.ILoginResponse> ({
+            method: 'POST',
+            path: '/v1/auth/login',
+            data: {
+                code: wxResp.code,
+            },
+            respMarshaller: auth.v1.LoginResponse.fromObject,
+        }, {
+            attachAuthHeader: false,
+            retryOnAuthError: false,
+        })
+        authData.token = resp.accessToken!
+        authData.expiryMs = reqTimeMs + resp.expiresIn! * 1000
     }
 
-
-    function sendRequest<REQ,RES>(o:RequestOption<REQ,RES>,a:AuthOption):Promise<RES>{
-        return new Promise((resolve,reject)=>{
-            const header:Record<string,any>={}
-            if(a.attachAuthHeader){
-                if(authData.token&&authData.expirMs>=Date.now()){
-                    header.authorization ='Bearer '+ authData.token
-                }else{
+    function sendRequest<REQ, RES>(o: RequestOption<REQ, RES>, a: AuthOption): Promise<RES> {
+        return new Promise((resolve, reject) => {
+            const header: Record<string, any> = {}
+            if (a.attachAuthHeader) {
+                if (authData.token && authData.expiryMs >= Date.now()) {
+                    header.authorization = 'Bearer ' + authData.token
+                } else {
                     reject(AUTH_ERR)
                     return
                 }
             }
             wx.request({
-                url:serverAddr+o.path,
-                method:o.method,
-                data:o.data,
-                success:res=>{
-                    if(res.statusCode===401){
+                url: serverAddr + o.path,
+                method: o.method,
+                data: o.data,
+                header,
+                success: res => {
+                    if (res.statusCode === 401) {
                         reject(AUTH_ERR)
-                    }else if(res.statusCode>=400){
+                    } else if (res.statusCode >= 400) {
                         reject(res)
-                    }else{
-                        resolve( o.respMarshller(
-                            camelcaseKeys(res.data as object,{
-                                deep:true
+                    } else {
+                        resolve(o.respMarshaller(
+                            camelcaseKeys(res.data as object, {
+                                deep: true,
                             })))
                     }
                 },
-                header,
-                fail:reject
+                fail: reject,
             })
         })
     }
 
-    function wxLogin():Promise<WechatMiniprogram.LoginSuccessCallbackResult>{
-        return new Promise((resolve,reject)=>{
+    function wxLogin(): Promise<WechatMiniprogram.LoginSuccessCallbackResult> {
+        return new Promise((resolve, reject) => {
             wx.login({
-                success:resolve,
-                fail:reject,
+                success: resolve,
+                fail: reject,
             })
         })
     }
 
+    export interface UploadFileOpts {
+        localPath: string
+        url: string
+    }
+    export function uploadfile(o: UploadFileOpts): Promise<void> {
+        const data = wx.getFileSystemManager().readFileSync(o.localPath)
+        return new Promise((resolve, reject) => {
+            wx.request({
+                method: 'PUT',
+                url: o.url,
+                data,
+                success: res => {
+                    if (res.statusCode >= 400) {
+                        reject(res)
+                    } else {
+                        resolve()
+                    }
+                },
+                fail: reject,
+            })
+        })
+    }
 }

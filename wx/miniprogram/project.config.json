@@ -4,7 +4,7 @@
     "ignore": []
   },
   "compileType": "miniprogram",
-  "libVersion": "2.8.2",
+  "libVersion": "2.9.3",
   "projectname": "coolcar",
   "scripts": {
     "beforeCompile": "npm run tsc",
@@ -48,6 +48,12 @@
   "simulatorPluginLibVersion": {},
   "appid": "wx3389bdd0060a35b6",
   "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
     "plugin": {
       "list": []
     },
@@ -60,21 +66,38 @@
     "miniprogram": {
       "list": [
         {
+          "id": -1,
+          "name": "pages/learncss/learncss",
+          "pathName": "pages/learncss/learncss",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
           "name": "pages/register/register",
           "pathName": "pages/register/register",
           "query": "",
           "scene": null
         },
         {
+          "id": 2,
+          "name": "pages/lock/lock",
+          "pathName": "pages/lock/lock",
+          "query": "car_id=demo_car",
+          "scene": null
+        },
+        {
+          "id": -1,
           "name": "pages/driving/driving",
           "pathName": "pages/driving/driving",
           "query": "",
           "scene": null
         },
         {
-          "name": "pages/lock/lock",
-          "pathName": "pages/lock/lock",
-          "query": "car_id=demo_car",
+          "id": -1,
+          "name": "pages/mytrips/mytrips",
+          "pathName": "pages/mytrips/mytrips",
+          "query": "",
           "scene": null
         }
       ]

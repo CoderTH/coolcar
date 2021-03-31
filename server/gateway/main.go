@@ -3,13 +3,16 @@ package main
 import (
 	"context"
 	authpb "coolcar/auth/api/gen/v1"
+	carpb "coolcar/car/api/gen/v1"
 	rentalpb "coolcar/rental/api/gen/v1"
+	"coolcar/shared/auth"
 	"coolcar/shared/server"
-	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"google.golang.org/grpc"
-	"google.golang.org/protobuf/encoding/protojson"
 	"log"
 	"net/http"
+	"net/textproto"
+
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -18,19 +21,20 @@ func main() {
 		log.Fatalf("cannot create zap logger: %v", err)
 	}
 	c := context.Background()
-	c,cancel :=context.WithCancel(c)
+	c, cancel := context.WithCancel(c)
 	defer cancel()
+
 	mux := runtime.NewServeMux(runtime.WithMarshalerOption(
 		runtime.MIMEWildcard, &runtime.JSONPb{
-			MarshalOptions: protojson.MarshalOptions{
-				UseProtoNames:  true,
-				UseEnumNumbers: true,
-			},
-			UnmarshalOptions: protojson.UnmarshalOptions{
-				DiscardUnknown: true,
-			},
+			EnumsAsInts: true,
+			OrigName:    true,
 		},
-	))
+	), runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
+		if key == textproto.CanonicalMIMEHeaderKey(runtime.MetadataHeaderPrefix+auth.ImpersonateAccountHeader) {
+			return "", false
+		}
+		return runtime.DefaultHeaderMatcher(key)
+	}))
 
 	serverConfig := []struct {
 		name         string
@@ -46,6 +50,16 @@ func main() {
 			name:         "trip",
 			addr:         "localhost:8082",
 			registerFunc: rentalpb.RegisterTripServiceHandlerFromEndpoint,
+		},
+		{
+			name:         "profile",
+			addr:         "localhost:8082",
+			registerFunc: rentalpb.RegisterProfileServiceHandlerFromEndpoint,
+		},
+		{
+			name:         "car",
+			addr:         "localhost:8084",
+			registerFunc: carpb.RegisterCarServiceHandlerFromEndpoint,
 		},
 	}
 

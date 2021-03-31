@@ -1,14 +1,14 @@
-package mgo
+package mgutil
 
 import (
 	"coolcar/shared/mongo/objid"
 	"fmt"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"time"
 )
-//mongo操作库二次封装
-// Common field names.
+
 // Common field names.
 const (
 	IDFieldName        = "_id"

@@ -2,8 +2,11 @@ package dao
 
 import (
 	"context"
-	mgo "coolcar/shared/mongo"
+	"coolcar/shared/id"
+	mgutil "coolcar/shared/mongo"
+	"coolcar/shared/mongo/objid"
 	"fmt"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -11,32 +14,41 @@ import (
 
 const openIDField = "open_id"
 
-//Auth Mongo操作实体
+// Mongo defines a mongo dao.
 type Mongo struct {
 	col *mongo.Collection
 }
 
+// NewMongo creates a mongo dao.
 func NewMongo(db *mongo.Database) *Mongo {
 	return &Mongo{
 		col: db.Collection("account"),
 	}
 }
 
-func (m *Mongo) ResolveAccountID(c context.Context, openID string) (string, error) {
+// ResolveAccountID resolves the account id from open id.
+func (m *Mongo) ResolveAccountID(
+	c context.Context, openID string) (id.AccountID, error) {
+
+	insertedID := mgutil.NewObjID()
 	res := m.col.FindOneAndUpdate(c, bson.M{
 		openIDField: openID,
-	}, mgo.Set(bson.M{
-		openIDField: openID,
-	}),options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(options.After))
+	}, mgutil.SetOnInsert(bson.M{
+		mgutil.IDFieldName: insertedID,
+		openIDField:        openID,
+	}), options.FindOneAndUpdate().
+		SetUpsert(true).
+		SetReturnDocument(options.After))
 
-	err := res.Err()
+	if err := res.Err(); err != nil {
+		return "", fmt.Errorf("cannot findOneAndUpdate: %v", err)
+	}
+
+	var row mgutil.IDField
+	err := res.Decode(&row)
 	if err != nil {
-		return "", fmt.Errorf("connot findOneAndUpate: %V", err)
+		return "", fmt.Errorf("cannot decode result: %v", err)
 	}
-	var row mgo.IDField
-	if err = res.Decode(&row); err != nil {
-		return "", fmt.Errorf("cannot decode result:%V", err)
-	}
-	return row.ID.Hex(), nil
 
+	return objid.ToAccountID(row.ID), nil
 }

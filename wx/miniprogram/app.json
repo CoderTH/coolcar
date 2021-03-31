@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/learncss/learncss",
     "pages/register/register",
     "pages/lock/lock",
     "pages/driving/driving",
@@ -8,7 +9,7 @@
   ],
   "permission": {
     "scope.userLocation": {
-      "desc": "你的位置信息将用于驾驶位置展示展示"
+      "desc": "你的位置信息将用于驾驶位置展示"
     }
   },
   "window": {

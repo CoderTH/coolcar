@@ -1,7 +1,3 @@
-export GOPATH=$HOME/go # 换成自己go代码的路径,这是我自己设置的路径
-export GOBIN=$GOPATH/bin # 也可以不加这一句，看自己需不需要
-export PATH=$PATH:$GOPATH/bin #把go下面的bin目录添加到电脑的环境变量中
-
 function genProto {
     DOMAIN=$1
     SKIP_GATEWAY=$2
@@ -29,3 +25,5 @@ function genProto {
 
 genProto auth
 genProto rental
+genProto blob 1
+genProto car

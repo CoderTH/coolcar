@@ -1,74 +1,124 @@
+import { rental } from "../../service/proto_gen/rental/rental_pb"
+import { TripService } from "../../service/trip"
+import { formatDuration, formatFee } from "../../utils/format"
 import { routing } from "../../utils/routing"
 
-const  centPerSec = 0.7
+const updateIntervalSec = 5
+const initialLat = 30
+const initialLng = 120
 
-function formatDuration(sec:number){
-    const padString = (n:number)=>
-        n<10?'0'+n.toFixed(0):n.toFixed(0)
-    const h = Math.floor(sec/3600) 
-    sec -= 3600 * h
-    const m = Math.floor(sec/60)
-    sec -= 60* m
-    const s= Math.floor(sec)
-    return `${padString(h)}:${padString(m)}:${padString(s)}`
-}
-function formatFee(cents:number){
-   return (cents/100).toFixed(2)
+function durationStr(sec: number) {
+    const dur = formatDuration(sec)
+    return `${dur.hh}:${dur.mm}:${dur.ss}`
 }
 
 Page({
     timer: undefined as number|undefined,
+    tripID: '',
+
     data: {
         location: {
-            latitude: 32.92,
-            longitude: 118.46,
+            latitude: initialLat,
+            longitude: initialLng,
         },
-        scale: 14,
-        elapsed:'00:00:00',
-        fee:'0.00'
+        scale: 12,
+        elapsed: '00:00:00',
+        fee: '0.00',
+        markers: [
+            {
+                iconPath: "/resources/car.png",
+                id: 0,
+                latitude: initialLat,
+                longitude: initialLng,
+                width: 20,
+                height: 20,
+            },
+        ],
     },
-    onLoad(opt:Record<'trip_id',string>){
+
+    onLoad(opt: Record<'trip_id', string>) {
         const o: routing.DrivingOpts = opt
-        console.log('current trip',o.trip_id);
+        this.tripID = o.trip_id
         this.setupLocationUpdator()
-        this.setupTimer()
+        this.setupTimer(o.trip_id)
     },
-    onUnload(){
+
+    onUnload() {
         wx.stopLocationUpdate()
-        if(this.timer){
+        if (this.timer) {
             clearInterval(this.timer)
         }
     },
-    setupLocationUpdator(){
+
+    setupLocationUpdator() {
         wx.startLocationUpdate({
-            fail:console.error
+            fail: console.error,
         })
-        wx.onLocationChange(loc=>{
-            console.log('location:'+loc);
+        wx.onLocationChange(loc => {
             this.setData({
-                location:{
-                    latitude:loc.latitude,
-                    longitude:loc.longitude
-                }
+                location: {
+                    latitude: loc.latitude,
+                    longitude: loc.longitude,
+                },
             })
         })
     },
-    setupTimer(){
-        let elapsedsec = 0
-        let cents = 0
-        this.timer = setInterval(()=>{
-            elapsedsec++
-            cents += centPerSec
+
+    async setupTimer(tripID: string) {
+        const trip = await TripService.getTrip(tripID)
+        if (trip.status !== rental.v1.TripStatus.IN_PROGRESS) {
+            console.error('trip not in progress')
+            return
+        }
+        let secSinceLastUpdate = 0
+        let lastUpdateDurationSec = trip.current!.timestampSec! - trip.start!.timestampSec!
+        const toLocation = (trip: rental.v1.ITrip) => ({
+            latitude: trip.current?.location?.latitude || initialLat,
+            longitude: trip.current?.location?.longitude || initialLng,
+        })
+        const location = toLocation(trip)
+        this.data.markers[0].latitude = location.latitude
+        this.data.markers[0].longitude = location.longitude
+        this.setData({
+            elapsed: durationStr(lastUpdateDurationSec),
+            fee: formatFee(trip.current!.feeCent!),
+            location,
+            markers: this.data.markers,
+        })
+
+        this.timer = setInterval(() => {
+            secSinceLastUpdate++
+            if (secSinceLastUpdate % updateIntervalSec === 0) {
+                TripService.getTrip(tripID).then(trip => {
+                    lastUpdateDurationSec = trip.current!.timestampSec! - trip.start!.timestampSec!
+                    secSinceLastUpdate = 0
+                    const location = toLocation(trip)
+                    this.data.markers[0].latitude = location.latitude
+                    this.data.markers[0].longitude = location.longitude
+                    this.setData({
+                        fee: formatFee(trip.current!.feeCent!),
+                        location,
+                        markers: this.data.markers,
+                    })
+                }).catch(console.error)
+            }
             this.setData({
-                elapsed: formatDuration(elapsedsec),
-                fee:formatFee(cents)
+                elapsed: durationStr(lastUpdateDurationSec + secSinceLastUpdate),
             })
-        },1000)
+        }, 1000)
     },
-    onEndTripTap(){
-        wx.redirectTo({
-            url:routing.mytrips()
+
+    onEndTripTap() {
+        TripService.finishTrip(this.tripID).then(() => {
+            wx.redirectTo({
+                url: routing.mytrips(),
+            })
+        }).catch(err => {
+            console.error(err)
+            wx.showToast({
+                title: '结束行程失败',
+                icon: 'none',
+            })
         })
     }
-
 })

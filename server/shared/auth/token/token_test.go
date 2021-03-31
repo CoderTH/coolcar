@@ -1,38 +1,83 @@
 package token
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"testing"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 const publicKey = `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqcxPYZvp+CziUTi6+cCU
-j7stduQbJ6hRHvbY4bZ77F8/ZmshPs6AAdMAK1au0B2pXNyYLnNm0HIYZM7YZv83
-M98Qcy3yBTddPWbZfgmUVqAvnFj7PNuQmLVHyY06x2tQTT/5946GiPLwWjfQQHu3
-MLZvCECn7E4V5TwKC9J/onuy92q4jX6E3lx3UGQ8hRnwDCLRKPw6N23lL+jcIqDg
-qi51k2h6hGgBEN0FudCUerPz4kLW/zezLmYrmNbmUhGQ6poSTn1peliNCdQ1sC0i
-RqgKlcBwcv/SU+eMMwNNgTy/pKT4xIJg8p+QXn9JdMpNMguz9uKU+CZr8KhB0iuq
-rQIDAQAB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlyK+cR8u27fuMn60btT+
+Xy1Rxd4yitBzcMPkD/Y6FonFDBFvEkXaPx+zcQy1jdaBllnuJ7Ff7xwNIby7FOFc
+UZN4tDiU8lUsoZjS3cR/OEW+qPnVHrIYa+sGpVwP2VdBEbpb7SHEbvT9hHOTtEwU
+Zkj35Unoj5Lwa4WFA8asEpmxDs2G3C87HnhRtdwRWUNIJ7YTAIOMt4VQ1GaQCqaL
+niuJ/h6VWSqipqGMRFhXBWzIlNlcVIBXyjgvlALtFCTC2z+H1cDRRzAff4WhUefx
+laKPprVOgHnlXhQl66X+antHnW7GQ/TFTzFdUUoUzwpYbikK+5Gz3VMXYt+4tFYt
+BQIDAQAB
 -----END PUBLIC KEY-----`
 
-
-
-
-func TestJWTVerifier_Verify(t *testing.T) {
+func TestVerify(t *testing.T) {
 	pubKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(publicKey))
 	if err != nil {
-		t.Fatalf("cannot parse public key %v",err)
+		t.Fatalf("cannot parse public key: %v", err)
 	}
-	v :=JWTVerifier{
-		PublicKey:pubKey,
+
+	v := &JWTTokenVerifier{
+		PublicKey: pubKey,
 	}
-	tkn:="eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTYzOTc5MTUsImlhdCI6MTYxNjM5MDcxNSwiaXNzIjoiY29vbGNhci9hdXRoIiwic3ViIjoiNjA1NWFmOGM4Mjc2ZTUzNzlkNGRhYjQxIn0.JOOWjQ6Jj5oYRXs0LsykrexLQCb65-K4L2yYvoxGjuyOr4nhNDnZpJclf5XfhIPA0EOJbOgzrxEwxp811AcT-VVkad2pVv16dsHeXoQDNQ1qL3oeqb8_OYR_6XrKN0XhUi5sDYESm0vNxJCMVkPCjKQ0MhUtWZwI53Ma0DYXgbLoAoblPxzOqlAm3V3GitVGJlxFEU6LVqKIB6CdY5RXqr73coCbUMP2dDHfQbE-8SE1MRs0y8KeNN-XOukGpVC0Su7F-pX4pkrmGCATF8W0YWVPAOf1kb9JPV6c7QVTY1LuSkOgz3jgL6KmVOcgkdiz4iyc6_CJn-QpVKsq4vEnhw"
-	accountId, err := v.Verify(tkn)
-	if err != nil {
-		t.Errorf("verifcartion failed:%v",err)
+
+	cases := []struct {
+		name    string
+		tkn     string
+		now     time.Time
+		want    string
+		wantErr bool
+	}{
+		{
+			name: "valid_token",
+			tkn:  "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTYyNDYyMjIsImlhdCI6MTUxNjIzOTAyMiwiaXNzIjoiY29vbGNhci9hdXRoIiwic3ViIjoiNWY3YzMxNjhlMjI4M2FhNzIyZTM1MWEzIn0.jPVRIZXsNz08OCudP4cC8KGzVEIWC42TOMHpc6cN-_3yUgbPcrhuJL6C27fzoxt0j8J3L0z6nv0ni_713fzYjo1Y_b4Axxz4sI5bz-b9O1BziFU1NC9t3IJbwFsF2Svz2OpG3aY388rTZ4orHShfRbrzGnzK8NbNXIZ7CcCvEznHiJEmSgqSZSYeZVjjid2p2l_T_eTQxJTkHi9LE-3g_AfLKLXXmqLlXYpurTGMWEBkJq51uNs6MnESi4pEwbLviTmZTTtC6qAhkVmeJh7QUZA8BPKoxSbNEYQxYYQK1aiRGyrrONsK1etXW6JG2F4x0wiNjTKMvQSAsq7GnWvkoQ",
+			now:  time.Unix(1516239122, 0),
+			want: "5f7c3168e2283aa722e351a3",
+		},
+		{
+			name:    "token_expired",
+			tkn:     "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTYyNDYyMjIsImlhdCI6MTUxNjIzOTAyMiwiaXNzIjoiY29vbGNhci9hdXRoIiwic3ViIjoiNWY3YzMxNjhlMjI4M2FhNzIyZTM1MWEzIn0.jPVRIZXsNz08OCudP4cC8KGzVEIWC42TOMHpc6cN-_3yUgbPcrhuJL6C27fzoxt0j8J3L0z6nv0ni_713fzYjo1Y_b4Axxz4sI5bz-b9O1BziFU1NC9t3IJbwFsF2Svz2OpG3aY388rTZ4orHShfRbrzGnzK8NbNXIZ7CcCvEznHiJEmSgqSZSYeZVjjid2p2l_T_eTQxJTkHi9LE-3g_AfLKLXXmqLlXYpurTGMWEBkJq51uNs6MnESi4pEwbLviTmZTTtC6qAhkVmeJh7QUZA8BPKoxSbNEYQxYYQK1aiRGyrrONsK1etXW6JG2F4x0wiNjTKMvQSAsq7GnWvkoQ",
+			now:     time.Unix(1517239122, 0),
+			wantErr: true,
+		},
+		{
+			name:    "bad_token",
+			tkn:     "bad_token",
+			now:     time.Unix(1517239122, 0),
+			wantErr: true,
+		},
+		{
+			name:    "wrong_signature",
+			tkn:     "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTYyNDYyMjIsImlhdCI6MTUxNjIzOTAyMiwiaXNzIjoiY29vbGNhci9hdXRoIiwic3ViIjoiNWY3YzMxNjhlMjI4M2FhNzIyZTM1MWE0In0.jPVRIZXsNz08OCudP4cC8KGzVEIWC42TOMHpc6cN-_3yUgbPcrhuJL6C27fzoxt0j8J3L0z6nv0ni_713fzYjo1Y_b4Axxz4sI5bz-b9O1BziFU1NC9t3IJbwFsF2Svz2OpG3aY388rTZ4orHShfRbrzGnzK8NbNXIZ7CcCvEznHiJEmSgqSZSYeZVjjid2p2l_T_eTQxJTkHi9LE-3g_AfLKLXXmqLlXYpurTGMWEBkJq51uNs6MnESi4pEwbLviTmZTTtC6qAhkVmeJh7QUZA8BPKoxSbNEYQxYYQK1aiRGyrrONsK1etXW6JG2F4x0wiNjTKMvQSAsq7GnWvkoQ",
+			now:     time.Unix(1516239122, 0),
+			wantErr: true,
+		},
 	}
-	want :="6055af8c8276e5379d4dab41"
-	if accountId!=want {
-		t.Errorf("wrong account id.want:%q,got:%q",want,accountId)
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			jwt.TimeFunc = func() time.Time {
+				return c.now
+			}
+			accountID, err := v.Verify(c.tkn)
+
+			if !c.wantErr && err != nil {
+				t.Errorf("verification failed: %v", err)
+			}
+
+			if c.wantErr && err == nil {
+				t.Errorf("want error; got no error")
+			}
+
+			if accountID != c.want {
+				t.Errorf("wrong account id. want: %q, got: %q", c.want, accountID)
+			}
+		})
 	}
 }

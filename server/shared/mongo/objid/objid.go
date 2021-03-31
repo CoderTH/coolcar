@@ -1,4 +1,5 @@
 package objid
+
 import (
 	"coolcar/shared/id"
 	"fmt"
